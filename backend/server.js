@@ -15,8 +15,13 @@ const port= process.env.PORT || 4000;
 
 // middleware
 
-app.use(express.json()) //front request -> backend
-app.use(cors()) //access backend from any frontend
+// middleware
+app.use(express.json()); // frontend request -> backend
+
+app.use(cors({
+  origin: "https://tomato-frontend-5zxo.onrender.com", // allow only your deployed frontend
+  credentials: true
+}));
 //db connection
 connectDB();
 
