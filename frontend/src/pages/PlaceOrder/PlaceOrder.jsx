@@ -48,7 +48,6 @@ const PlaceOrder = () => {
       }
     })
 
-
     let orderData = {
       address:data,
       items:orderItems,
@@ -63,6 +62,44 @@ const PlaceOrder = () => {
       alert("Error");
     }
   }
+
+  const placeCODOrder = async () => {
+    // Check if all delivery fields are filled
+    for (let key in data) {
+      if (data[key].trim() === "") {
+        alert("Please fill all delivery information fields before placing an order.");
+        return;
+      }
+    }
+    let orderItems = [];
+    food_list.map((item) => {
+      if (cartItems[item._id] > 0) {
+        let itemInfo = { ...item, quantity: cartItems[item._id] };
+        orderItems.push(itemInfo);
+      }
+    });
+
+    let orderData = {
+      address: data,
+      items: orderItems,
+      amount: getTotalCartAmount() + 2,
+      paymentMethod: "COD"
+    };
+
+    try {
+      let response = await axios.post(url + "/api/order/place-cod", orderData, { headers: { token } });
+      if (response.data.success && response.data.orderId) {
+        navigate("/verify?success=true&orderId=" + response.data.orderId);
+        setTimeout(() => {
+          cartItems_url({});
+        }, 200);
+      } else {
+        alert("Error");
+      }
+    } catch (error) {
+      alert("Order failed. Please try again.");
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -125,7 +162,10 @@ const PlaceOrder = () => {
               <b>${getTotalCartAmount()===0?0:getTotalCartAmount()+2}</b>
             </div>
           </div>
-          <button type='submit' >PROCEED TO PAYMENT</button>
+          <div className="payment-options">
+            <button type="submit">PROCEED TO PAYMENT</button>
+            <button type="button" onClick={placeCODOrder}>CASH ON DELIVERY</button>
+          </div>
         </div>
 
 

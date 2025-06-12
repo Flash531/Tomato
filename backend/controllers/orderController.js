@@ -135,5 +135,38 @@ const updateStatus = async(req,res) => {
   }
 }
 
- 
-export {placeOrder,verifyOrder,userOrders,deleteUnpaidOrders,listOrders,updateStatus}
+
+// Place Cash on Delivery (COD) order
+const placeCODOrder = async (req, res) => {
+  const frontend_url = "http://localhost:5174";
+  try {
+    const userId = req.body.userId;
+    const newOrder = new orderModel({
+      userId,
+      items: req.body.items,
+      amount: req.body.amount,
+      address: req.body.address,
+      payment: true,
+      paymentMethod: "COD"
+    });
+
+    await newOrder.save();
+    await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    console.log(`Cart cleared for user: ${userId}`);
+
+    res.json({ success: true, orderId: newOrder._id });
+  } catch (error) {
+    console.log("COD Order Error:", error);
+    res.status(500).json({ success: false, message: "Could not place COD order" });
+  }
+};
+
+export {
+  placeOrder,
+  verifyOrder,
+  userOrders,
+  deleteUnpaidOrders,
+  listOrders,
+  updateStatus,
+  placeCODOrder
+}
