@@ -4,14 +4,14 @@ import './PlaceOrder.css'
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext'
 
-const url = "http://localhost:4000";
+//const url = "http://localhost:4000";
 
 
 
 const PlaceOrder = () => {
 
 
-  const { getTotalCartAmount, token, food_list, cartItems, cartItems_url } = useContext(StoreContext)
+  const { getTotalCartAmount, token, food_list, cartItems, cartItems_url, url } = useContext(StoreContext)
 
   const [data,setData] = useState({  
     firstname:"",
