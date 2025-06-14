@@ -8,16 +8,18 @@ import Footer from "./components/Footer/Footer";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import Verify from "./pages/verify/verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-
-  const [showLogin,setShowLogin]= useState(false)
+  const [showLogin, setShowLogin] = useState(false);
 
   return (
     <>
-    {showLogin?<LoginPopup setShowLogin={setShowLogin}/>:<></>}
+      <ToastContainer position="top-center" autoClose={3000} />
+      {showLogin ? <LoginPopup setShowLogin={setShowLogin} /> : null}
       <div className="app">
-        <Navbar setShowLogin={setShowLogin}/>
+        <Navbar setShowLogin={setShowLogin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
@@ -26,7 +28,7 @@ const App = () => {
           <Route path="/myorders" element={<MyOrders />} />
         </Routes>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
