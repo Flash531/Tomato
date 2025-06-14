@@ -14,7 +14,7 @@ const StoreContextProvider = (props) => {
   const addToCart = async (itemId) => {
     if (!token) {
     console.log("🚀 toast trigger point reached"); // <- This must appear in browser console
-    // toast.info("Please sign in to add items to cart");
+    toast.info("Please sign in to add items to cart");
     return;
   }
 
