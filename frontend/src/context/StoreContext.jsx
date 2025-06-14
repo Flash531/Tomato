@@ -14,14 +14,6 @@ const StoreContextProvider = (props) => {
   const addToCart = async (itemId) => {
 if (!token) {
       console.log("🚀 toast trigger point reached");
-
-      // ✅ Prevent crash by deferring toast
-      if (typeof window !== "undefined") {
-        setTimeout(() => {
-          toast.info("Please sign in to add items to cart");
-        }, 100);
-      }
-
       return;
     }
 
