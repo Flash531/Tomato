@@ -12,10 +12,11 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
 
   const addToCart = async (itemId) => {
-    if (!token) {
-      toast.info("Please sign in to add items to cart");
-      return;
-    }
+    f (!token) {
+    console.log("🚀 toast trigger point reached"); // <- This must appear in browser console
+    toast.info("Please sign in to add items to cart");
+    return;
+  }
 
     try {
       const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
