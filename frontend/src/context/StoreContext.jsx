@@ -1,23 +1,21 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { food_list } from "../assets/frontend_assets/assets";
-import { toast } from "react-toastify";
-
+import { toast } from "react-toastify"; // ✅ Required for toast
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const url = "https://tomato-backend-97bx.onrender.com";
-  const[token,setToken] = useState("");
-  const [food_list,setFoodList]=useState([])
-
+  const [token, setToken] = useState("");
+  const [food_list, setFoodList] = useState([]);
 
   const addToCart = async (itemId) => {
     if (!token) {
-    toast.info("Please sign in to add items to cart");
-    return;
-  }
+      toast.info("Please sign in to add items to cart");
+      return;
+    }
 
     try {
       const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
@@ -67,7 +65,6 @@ const StoreContextProvider = (props) => {
     return TotalAmount;
   };
 
-
   const fetchFoodList = async () => {
     try {
       const response = await axios.get(url + "/api/food/list");
@@ -82,7 +79,7 @@ const StoreContextProvider = (props) => {
       console.error("Error fetching food list:", error);
       setFoodList([]);
     }
-  }
+  };
 
   const loadCartData = async (token) => {
     try {
@@ -98,19 +95,17 @@ const StoreContextProvider = (props) => {
     }
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     async function loadData() {
-    await fetchFoodList();
-    if(localStorage.getItem("token")){
-      setToken(localStorage.getItem("token"));
-      await loadCartData(localStorage.getItem("token"))
-  }
-  }
-  loadData();
-},[])
-
-
+      await fetchFoodList();
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+        await loadCartData(storedToken);
+      }
+    }
+    loadData();
+  }, []);
 
   const contextValue = {
     food_list,
