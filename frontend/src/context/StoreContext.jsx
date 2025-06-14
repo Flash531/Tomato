@@ -12,9 +12,11 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
 
   const addToCart = async (itemId) => {
-    if (!token) {
-    console.log("🚀 toast trigger point reached"); // <- This must appear in browser console
-    // toast.info("Please sign in to add items to cart");
+if (!token) {
+    console.log("🚀 toast trigger point reached");
+    setTimeout(() => {
+      toast.info("Please sign in to add items to cart");
+    }, 0);
     return;
   }
 
