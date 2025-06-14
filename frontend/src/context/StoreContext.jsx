@@ -13,7 +13,10 @@ const StoreContextProvider = (props) => {
 
 
   const addToCart = async (itemId) => {
-    if (!token) return;
+    if (!token) {
+    toast.info("Please sign in to add items to cart");
+    return;
+  }
 
     try {
       const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
