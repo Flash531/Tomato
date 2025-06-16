@@ -11,7 +11,7 @@ import { StoreContext } from '../../context/StoreContext'
 const PlaceOrder = () => {
 
 
-  const { getTotalCartAmount, token, food_list, cartItems, cartItems_url, url } = useContext(StoreContext)
+  const { getTotalCartAmount, token, food_list, cartItems, cartItems_url, url, clearCart } = useContext(StoreContext)
 
   const [data,setData] = useState({  
     firstname:"",
@@ -89,10 +89,8 @@ const PlaceOrder = () => {
     try {
       let response = await axios.post(url + "/api/order/place-cod", orderData, { headers: { token } });
       if (response.data.success && response.data.orderId) {
+        clearCart(); // Clear the cart immediately
         navigate("/verify?success=true&orderId=" + response.data.orderId);
-        setTimeout(() => {
-          cartItems_url({});
-        }, 200);
       } else {
         alert("Error");
       }
