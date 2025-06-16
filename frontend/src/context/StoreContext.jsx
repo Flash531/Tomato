@@ -12,8 +12,13 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
 
   const addToCart = async (itemId) => {
-if (!token) {
+    if (!token) {
       console.log("🚀 toast trigger point reached");
+      toast.warn("Please log in to continue.", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored"
+      });
       return;
     }
 
