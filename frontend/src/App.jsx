@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -10,9 +10,17 @@ import Verify from "./pages/verify/verify";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useContext } from "react";
+import { StoreContext } from "./context/StoreContext";
 
 const App = () => {
-  const [showLogin, setShowLogin] = useState(false);
+  const { showLogin, setShowLogin } = useContext(StoreContext);
+
+  useEffect(() => {
+    if (showLogin) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [showLogin]);
 
   return (
     <>
@@ -28,6 +36,7 @@ const App = () => {
         </Routes>
       </div>
       <Footer />
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   );
 };

@@ -10,15 +10,12 @@ const StoreContextProvider = (props) => {
   const url = "https://tomato-backend-97bx.onrender.com";
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [showLogin, setShowLogin] = useState(false);
 
   const addToCart = async (itemId) => {
     if (!token) {
       console.log("🚀 toast trigger point reached");
-      toast.warn("Please log in to continue.", {
-        position: "top-right",
-        autoClose: 3000,
-        theme: "colored"
-      });
+      setShowLogin(true);
       return;
     }
 
@@ -64,7 +61,9 @@ const StoreContextProvider = (props) => {
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         let itemInfo = food_list.find((product) => product._id === item);
-        TotalAmount += itemInfo.price * cartItems[item];
+        if (itemInfo) {
+          TotalAmount += itemInfo.price * cartItems[item];
+        }
       }
     }
     return TotalAmount;
@@ -121,7 +120,9 @@ const StoreContextProvider = (props) => {
     getTotalCartAmount,
     url,
     token,
-    setToken
+    setToken,
+    showLogin,
+    setShowLogin
   };
 
   return (
