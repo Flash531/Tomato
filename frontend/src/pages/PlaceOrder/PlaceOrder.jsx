@@ -87,7 +87,7 @@ const PlaceOrder = () => {
     };
 
     try {
-      let response = await axios.post(url + "/api/order/place-cod", orderData, { headers: { token } });
+      let response = await axios.post(url + "/api/order/place-cod", orderData, { headers: { Authorization: `Bearer ${token}` } });
       if (response.data.orderId) {
         const paymentSuccess = response.data.success ? "true" : "false";
         navigate(`/verify?success=${paymentSuccess}&orderId=${response.data.orderId}`);
