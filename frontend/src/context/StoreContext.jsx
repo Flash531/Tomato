@@ -22,7 +22,7 @@ const StoreContextProvider = (props) => {
        
 
     try {
-      const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
+      const response = await axios.post(url + "/api/cart/add", { itemId }, { headers: { Authorization: `Bearer ${token}` } });
 
       if (response.data.success) {
         setCartItems((prev) => {
@@ -39,7 +39,7 @@ const StoreContextProvider = (props) => {
     if (!token) return;
 
     try {
-      const response = await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
+      const response = await axios.post(url + "/api/cart/remove", { itemId }, { headers: { Authorization: `Bearer ${token}` } });
 
       if (response.data.success) {
         setCartItems((prev) => {
@@ -88,7 +88,7 @@ const StoreContextProvider = (props) => {
 
   const loadCartData = async (token) => {
     try {
-      const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
+      const response = await axios.post(url + "/api/cart/get", {}, { headers: { Authorization: `Bearer ${token}` } });
       if (response.data?.cartData) {
         setCartItems(response.data.cartData);
       } else {
